@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yzb.scr.mapper.ClassInfoMapper">
+
+    <resultMap id="BaseResultMap" type="com.yzb.scr.domain.ClassInfo">
+            <id property="classroomId" column="classroom_id" />
+            <result property="classroomLocation" column="classroom_location" />
+            <result property="temperature" column="temperature" />
+            <result property="humidity" column="humidity" />
+            <result property="airQuality" column="air_quality" />
+            <result property="doorStatus" column="door_status" />
+            <result property="windowStatus" column="window_status" />
+            <result property="lightStatus" column="light_status" />
+            <result property="humidifierStatus" column="humidifier_status" />
+            <result property="fanStatus" column="fan_status" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        classroom_id,classroom_location,temperature,humidity,air_quality,door_status,
+        window_status,light_status,humidifier_status,fan_status
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from classinfo
+        where  classroom_id = #{classroomId} 
+    </select>
+    <select id="selectClass" resultType="com.yzb.scr.domain.ClassInfo">
+        select
+        <include refid="Base_Column_List" />
+        from classinfo
+        <where>
+            <if test="classroomLocation!= null">
+                classroom_location like concat('%',#{classroomLocation},'%')
+            </if>
+            <if test="doorStatus!= null">
+                and door_status = #{doorStatus}
+            </if>
+            <if test="windowStatus!= null">
+                and window_status = #{windowStatus}
+            </if>
+            <if test="lightStatus!= null">
+                and light_status = #{lightStatus}
+            </if>
+            <if test="humidifierStatus!= null">
+                and humidifier_status = #{humidifierStatus}
+            </if>
+            <if test="fanStatus!= null">
+                and fan_status = #{fanStatus}
+            </if>
+        </where>
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from classinfo
+        where  classroom_id = #{classroomId} 
+    </delete>
+    <insert id="insert" keyColumn="classroom_id" keyProperty="classroomId" parameterType="com.yzb.scr.domain.ClassInfo" useGeneratedKeys="true">
+        insert into classinfo
+        ( classroom_id,classroom_location,temperature,humidity,air_quality,door_status,
+        window_status,light_status,humidifier_status,fan_status)
+        values (#{classroomId},#{classroomLocation},#{temperature},#{humidity},#{airQuality},#{doorStatus},
+        #{windowStatus},#{lightStatus},#{humidifierStatus},#{fanStatus})
+    </insert>
+    <insert id="insertSelective" keyColumn="classroom_id" keyProperty="classroomId" parameterType="com.yzb.scr.domain.ClassInfo" useGeneratedKeys="true">
+        insert into classinfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="classroomId != null">classroom_id,</if>
+                <if test="classroomLocation != null">classroom_location,</if>
+                <if test="temperature != null">temperature,</if>
+                <if test="humidity != null">humidity,</if>
+                <if test="airQuality != null">air_quality,</if>
+                <if test="doorStatus != null">door_status,</if>
+                <if test="windowStatus != null">window_status,</if>
+                <if test="lightStatus != null">light_status,</if>
+                <if test="humidifierStatus != null">humidifier_status,</if>
+                <if test="fanStatus != null">fan_status,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="classroomId != null">#{classroomId},</if>
+                <if test="classroomLocation != null">#{classroomLocation},</if>
+                <if test="temperature != null">#{temperature},</if>
+                <if test="humidity != null">#{humidity},</if>
+                <if test="airQuality != null">#{airQuality},</if>
+                <if test="doorStatus != null">#{doorStatus},</if>
+                <if test="windowStatus != null">#{windowStatus},</if>
+                <if test="lightStatus != null">#{lightStatus},</if>
+                <if test="humidifierStatus != null">#{humidifierStatus},</if>
+                <if test="fanStatus != null">#{fanStatus},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.yzb.scr.domain.ClassInfo">
+        update classinfo
+        <set>
+                <if test="classroomLocation != null">
+                    classroom_location = #{classroomLocation},
+                </if>
+                <if test="temperature != null">
+                    temperature = #{temperature},
+                </if>
+                <if test="humidity != null">
+                    humidity = #{humidity},
+                </if>
+                <if test="airQuality != null">
+                    air_quality = #{airQuality},
+                </if>
+                <if test="doorStatus != null">
+                    door_status = #{doorStatus},
+                </if>
+                <if test="windowStatus != null">
+                    window_status = #{windowStatus},
+                </if>
+                <if test="lightStatus != null">
+                    light_status = #{lightStatus},
+                </if>
+                <if test="humidifierStatus != null">
+                    humidifier_status = #{humidifierStatus},
+                </if>
+                <if test="fanStatus != null">
+                    fan_status = #{fanStatus},
+                </if>
+        </set>
+        where   classroom_id = #{classroomId} 
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.yzb.scr.domain.ClassInfo">
+        update classinfo
+        set 
+            classroom_location =  #{classroomLocation},
+            temperature =  #{temperature},
+            humidity =  #{humidity},
+            air_quality =  #{airQuality},
+            door_status =  #{doorStatus},
+            window_status =  #{windowStatus},
+            light_status =  #{lightStatus},
+            humidifier_status =  #{humidifierStatus},
+            fan_status =  #{fanStatus}
+        where   classroom_id = #{classroomId} 
+    </update>
+</mapper>

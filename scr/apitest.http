@@ -1,0 +1,8 @@
+### Send POST request with json body
+POST http://localhost:8088/classInfo/page
+Content-Type: application/json
+
+{
+  "pageNum": 2
+
+}

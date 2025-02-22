@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yzb.scr.mapper.UserInfoMapper">
+
+    <resultMap id="BaseResultMap" type="com.yzb.scr.domain.UserInfo">
+            <id property="id" column="id" />
+            <result property="username" column="username" />
+            <result property="passwordHash" column="password_hash" />
+            <result property="nickname" column="nickname" />
+            <result property="role" column="role" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,username,password_hash,nickname,role
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from users
+        where  id = #{id} 
+    </select>
+    <select id="selectBy" resultType="com.yzb.scr.domain.UserInfo">
+        select
+        <include refid="Base_Column_List" />
+        from users
+        <where>
+            <if test="username!= null and username != ''">
+                and username = #{username}
+            </if>
+            <if test="role!= null">
+                and role = #{role}
+            </if>
+            <if test="nickname!= null and nickname != ''">
+                nickname like concat('%',#{nickname},'%')
+            </if>
+        </where>
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from users
+        where  id = #{id} 
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.yzb.scr.domain.UserInfo" useGeneratedKeys="true">
+        insert into users
+        ( id,username,password_hash,nickname,role)
+        values (#{id},#{username},#{passwordHash},#{nickname},#{role})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.yzb.scr.domain.UserInfo" useGeneratedKeys="true">
+        insert into users
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="id != null">id,</if>
+                <if test="username != null">username,</if>
+                <if test="passwordHash != null">password_hash,</if>
+                <if test="nickname != null">nickname,</if>
+                <if test="role != null">role,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="id != null">#{id},</if>
+                <if test="username != null">#{username},</if>
+                <if test="passwordHash != null">#{passwordHash},</if>
+                <if test="nickname != null">#{nickname},</if>
+                <if test="role != null">#{role},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.yzb.scr.domain.UserInfo">
+        update users
+        <set>
+                <if test="username != null">
+                    username = #{username},
+                </if>
+                <if test="passwordHash != null">
+                    password_hash = #{passwordHash},
+                </if>
+                <if test="nickname != null">
+                    nickname = #{nickname},
+                </if>
+                <if test="role != null">
+                    role = #{role},
+                </if>
+        </set>
+        where   id = #{id} 
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.yzb.scr.domain.UserInfo">
+        update users
+        set 
+            username =  #{username},
+            password_hash =  #{passwordHash},
+            nickname =  #{nickname},
+            role =  #{role}
+        where   id = #{id} 
+    </update>
+</mapper>
