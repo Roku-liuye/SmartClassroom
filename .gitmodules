@@ -1,0 +1,3 @@
+[submodule "scr_vue/scr_vue"]
+	path = scr_vue/scr_vue
+	url = git@github.com:Roku-liuye/SmartClassroom.git
